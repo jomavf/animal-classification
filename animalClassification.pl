@@ -1,3 +1,5 @@
+% working_directory(_,"E:\\animal-classification").
+
 :- dynamic(yes/1).
 :- dynamic(no/1).
 
@@ -5,19 +7,22 @@
 
 conexion :- odbc_connect('prologconexion',_,[user(''),password(''),alias(bd),open(once)]) -> write('Conexion a la base de datos exitosa\n'); write('Error de conexion a la base de datos').
 
-run_hipotesis :- odbc_query(bd, 'select name from Animal',asserta( (hipotesis(X):- X,!) )).
+run_insert([]).
+run_insert([H|T]) :- asserta((hipotesis(H):- H,!)),format('Insertando ~w \n',[H]), run_insert(T).
+
+run_hipotesis :- findall(X,odbc_query(bd, 'select name from Animal',row(X)),X),run_insert(X),!.
 
 run_query(X,Y) :- odbc_query(bd, 'select A.[name],C.[name] from Animal_Caracteristica AC join Animal A on AC.animal_id=A.id join Caracteristica C on C.id = AC.caracteristica_id;',row(X,Y)).
 
 run :- hipotesis(Animal),
 format('Creo que el animal es: ~w',[Animal]).
 
-hipotesis(chita) :- chita, !.
-hipotesis(tigre) :- tigre, !.
-hipotesis(zebra) :- zebra, !.
-hipotesis(avestruz) :- avestruz, !.
-hipotesis(pinguino) :- pinguino, !.
-hipotesis(jirafa) :- jirafa, !.
+% hipotesis(chita) :- chita, !.
+% hipotesis(tigre) :- tigre, !.
+% hipotesis(zebra) :- zebra, !.
+% hipotesis(avestruz) :- avestruz, !.
+% hipotesis(pinguino) :- pinguino, !.
+% hipotesis(jirafa) :- jirafa, !.
 hipotesis('Desconocido').
 
 chita :-
@@ -77,5 +82,6 @@ verificar(S) :-
 
 undo :- retract(yes(_)),fail.
 undo :- retract(no(_)),fail.
+undo :- retract(hipotesis(_)),write('Reglas de hipotesis eliminados correctamente'),!.
 
 :- conexion.
