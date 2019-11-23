@@ -79,9 +79,6 @@
 
 % ----------------  ----------------  START GUI  ----------------  ---------------- %
 :- use_module(library(pce)).
-:- pce_image_directory('./imagenes').
-:- use_module(library(pce_style_item)).
-:- dynamic color/2.
 
 % working_directory(_,'C:\\Users\\jmart\\Documents\\animal-classification').
 
