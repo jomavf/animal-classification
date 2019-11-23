@@ -87,12 +87,14 @@
 
 % Preguntar window
   preguntar(Preg,Resp):-new(Di,dialog('Colsultar Datos:')),
-                        new(L2,label(texto,'Responde las siguientes preguntas')),
+                        new(L2,label(texto,'Responde las siguientes preguntas:',font('times','roman',15))),
+                        new(L3,label(texto,'El animal tiene la siguiente caracteristica?',font('times','roman',13))),
                         new(La,label(prob,Preg)),
                         new(B1,button(si,and(message(Di,return,si)))),
                         new(B2,button(no,and(message(Di,return,no)))),
                         send(Di, gap, size(25,25)),
                         send(Di,append(L2)),
+                        send(Di,append(L3)),
                         send(Di,append(La)),
                         send(Di,append(B1)),
                         send(Di,append(B2)),
@@ -106,7 +108,6 @@
               send(@iniciar_consulta, free),
               send(@salir, free),
               hipotesis(Animal),
-              % mostrar_diagnostico(Enfermedad),
               send(@texto, selection('El Diagnostico a partir de los datos es:')),
               send(@resp1, selection(Animal)),
               new(@iniciar_consulta, button('Iniciar consulta',
@@ -118,19 +119,19 @@
 
 % Crear interfaz inicio
   crea_interfaz_inicio:- new(@interfaz,dialog('Bienvenido al Sistema Experto de clasificacion de animales',
-  size(350,400))),
+  size(300,100))),
 
   %Imprimir label
   new(@texto, label(nombre,'Clasificador de animales apartir de caracteristicas ingresadas',font('times','roman',18))),
-  new(@resp1, label(nombre,'',font('times','roman',22))),
+  new(@resp1, label(nombre,'',font('times','roman',26))),
 
-  new(@salir,button('SALIR',and(message(@interfaz,destroy),message(@interfaz,free)))),
+  new(@salir,button('Salir',and(message(@interfaz,destroy),message(@interfaz,free)))),
   new(@iniciar_consulta, button('Iniciar consulta',message(@prolog, preguntas))),
 
   send(@interfaz, display,@texto,point(20,10)),
-  send(@interfaz, display,@resp1,point(380,10)),
-  send(@interfaz, display,@salir,point(300,50)),
-  send(@interfaz, display,@iniciar_consulta,point(190,50)),
+  send(@interfaz, display,@resp1,point(20,50)),
+  send(@interfaz, display,@salir,point(300,70)),
+  send(@interfaz, display,@iniciar_consulta,point(190,70)),
   send(@interfaz,open_centered).
 
 % Inicio
