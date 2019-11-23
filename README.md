@@ -9,5 +9,5 @@ Interfaz gráfica con conexion a base de datos (SQL server) para clasificar anim
  
 ## Ejemplo para ejecutar el código
 ```
-?- [guiAC.pl].
+?- [guiAC].
 ```
